@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "124809569219",
+    "firebase_url": "https://marbot-cec3f-default-rtdb.firebaseio.com",
+    "project_id": "marbot-cec3f",
+    "storage_bucket": "marbot-cec3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124809569219:android:c9cd786e5a6e3cd7819376",
+        "android_client_info": {
+          "package_name": "com.example.marbot_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9yo8Bvvs2mBkEDBWdySG_dpWRFo2s_rU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

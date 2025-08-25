@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8882501036",
+    "project_id": "control-de-dispositivos-da082",
+    "storage_bucket": "control-de-dispositivos-da082.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8882501036:android:40a2bac5b68ae9214c3609",
+        "android_client_info": {
+          "package_name": "com.example.marbot_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4Vh7fiRTz3qXMXnnGKtNo8mIbE_594vQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
