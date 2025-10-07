@@ -317,6 +317,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       isLoading: isLoading,
                       onToggle: () => _toggleDevice(device),
                       onEdit: () => _showEditDeviceDialog(device),
+                      onPressStart: device.type == DeviceType.garage
+                          ? () => _onGaragePressStart(device)
+                          : null,
+                      onPressEnd: device.type == DeviceType.garage
+                          ? () => _onGaragePressEnd(device)
+                          : null,
                     );
                   },
                 ),
