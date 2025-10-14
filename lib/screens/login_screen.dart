@@ -111,11 +111,11 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: 60),
               
-              // Logo o título
+              // Logo o título (icono consistente)
               Icon(
-                Icons.security,
+                Icons.home_outlined,
                 size: 80,
-                color: Colors.blue,
+                color: Colors.white,
               ),
               SizedBox(height: 20),
               Text(
