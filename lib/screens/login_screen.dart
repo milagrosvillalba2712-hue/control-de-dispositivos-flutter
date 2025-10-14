@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text('Control de dispositivos - Login'),
+        title: Text('Smart Home - Login'),
         backgroundColor: Colors.grey[850],
         centerTitle: true,
       ),
