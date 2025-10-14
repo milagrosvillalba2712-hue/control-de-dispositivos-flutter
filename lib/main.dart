@@ -317,6 +317,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       isLoading: isLoading,
                       onToggle: () => _toggleDevice(device),
                       onEdit: () => _showEditDeviceDialog(device),
+                      onPressStart: device.type == DeviceType.garage
+                          ? () => _onGaragePressStart(device)
+                          : null,
+                      onPressEnd: device.type == DeviceType.garage
+                          ? () => _onGaragePressEnd(device)
+                          : null,
                     );
                   },
                 ),
@@ -397,6 +403,40 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  // Inicio de control por pulsación prolongada para garaje
+  Future<void> _onGaragePressStart(Device device) async {
+    setState(() {
+      _loadingStates[device.id] = true;
+    });
+    try {
+      await _deviceService.updateDeviceL1(device.id, 1);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al iniciar control de ${device.name}: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // Fin de control por pulsación prolongada para garaje
+  Future<void> _onGaragePressEnd(Device device) async {
+    try {
+      await _deviceService.updateDeviceL1(device.id, 0);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al detener control de ${device.name}: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _loadingStates[device.id] = false;
+      });
+    }
+  }
   void _showAddDeviceDialog() {
     showDialog(
       context: context,

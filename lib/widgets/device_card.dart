@@ -5,6 +5,8 @@ class DeviceCard extends StatelessWidget {
   final Device device;
   final VoidCallback onToggle;
   final VoidCallback onEdit;
+  final VoidCallback? onPressStart; // only used for garage
+  final VoidCallback? onPressEnd;   // only used for garage
   final bool isLoading;
 
   const DeviceCard({
@@ -12,6 +14,8 @@ class DeviceCard extends StatelessWidget {
     required this.device,
     required this.onToggle,
     required this.onEdit,
+    this.onPressStart,
+    this.onPressEnd,
     this.isLoading = false,
   }) : super(key: key);
 
@@ -252,47 +256,24 @@ class DeviceCard extends StatelessWidget {
                   ),
                   child: Material(
                     color: Colors.transparent,
-                    child: InkWell(
-                      onTap: isLoading ? null : onToggle,
-                      borderRadius: BorderRadius.circular(16),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: isLoading
-                            ? Center(
-                                child: SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.5,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      device.l1 == 1 ? Colors.black : Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    device.l1 == 1 
-                                        ? Icons.power_off_rounded 
-                                        : Icons.power_settings_new_rounded,
-                                    size: 24,
-                                    color: device.l1 == 1 ? Colors.black : Colors.white,
-                                  ),
-                                  SizedBox(width: 12),
-                                  Text(
-                                    device.controlButtonText,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: device.l1 == 1 ? Colors.black : Colors.white,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      ),
+                    child: Builder(
+                      builder: (context) {
+                        // Para garaje usamos press-and-hold (onPressStart/onPressEnd)
+                        if (device.type == DeviceType.garage) {
+                          return GestureDetector(
+                            onTapDown: isLoading ? null : (_) => onPressStart?.call(),
+                            onTapUp: isLoading ? null : (_) => onPressEnd?.call(),
+                            onTapCancel: isLoading ? null : () => onPressEnd?.call(),
+                            child: _buildButtonInner(),
+                          );
+                        }
+                        // Para otros dispositivos usamos onTap normal
+                        return InkWell(
+                          onTap: isLoading ? null : onToggle,
+                          borderRadius: BorderRadius.circular(16),
+                          child: _buildButtonInner(),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -301,6 +282,48 @@ class DeviceCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  // Contenido interno del botón (spinner o texto/icono)
+  Widget _buildButtonInner() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: isLoading
+          ? Center(
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    device.l1 == 1 ? Colors.black : Colors.white,
+                  ),
+                ),
+              ),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  device.l1 == 1
+                      ? Icons.power_off_rounded
+                      : Icons.power_settings_new_rounded,
+                  size: 24,
+                  color: device.l1 == 1 ? Colors.black : Colors.white,
+                ),
+                SizedBox(width: 12),
+                Text(
+                  device.controlButtonText,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: device.l1 == 1 ? Colors.black : Colors.white,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
